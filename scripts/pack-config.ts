@@ -48,7 +48,7 @@ async function updateConfigSchema() {
     fs.writeFileSync('./src/config/config.tlb-gen.ts', generated);
 }
 
-async function getLatestConfig() {
+async function updateConfig() {
     const masterchainResponse = await fetch('https://toncenter.com/api/v2/getMasterchainInfo');
     const masterchainInfo = (await masterchainResponse.json()) as {
         ok: boolean;
@@ -70,17 +70,15 @@ async function getLatestConfig() {
         throw new Error(configInfo.error ?? `TON Center request failed with status ${configResponse.status}`);
     }
 
-    return { config: Cell.fromBase64(configInfo.result.config.bytes), seqno };
+    const config = Cell.fromBase64(configInfo.result.config.bytes);
+
+    writeConfig('default', config, seqno);
+    writeConfig('slim', makeSlim(config), seqno);
 }
 
 const main = async () => {
     await updateConfigSchema();
-
-    const { config, seqno } = await getLatestConfig();
-
-    writeConfig('default', config, seqno);
-
-    writeConfig('slim', makeSlim(config), seqno);
+    await updateConfig();
 };
 
 main();
