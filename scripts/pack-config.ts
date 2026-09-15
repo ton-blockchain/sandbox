@@ -1,6 +1,9 @@
 import fs from 'fs';
 
+import { generateCode } from '@ton-community/tlb-codegen';
 import { beginCell, Cell, Dictionary, DictionaryValue } from '@ton/ton';
+
+const TON_BLOCKCHAIN_VERSION = 'v2026.08';
 
 const CellRef: DictionaryValue<Cell> = {
     serialize: (src, builder) => {
@@ -30,6 +33,21 @@ function writeConfig(name: string, config: Cell, seqno: number) {
     fs.writeFileSync(`./src/config/${name}Config.ts`, out);
 }
 
+async function updateConfigSchema() {
+    const tlbResponse = await fetch(
+        `https://raw.githubusercontent.com/ton-blockchain/ton/${TON_BLOCKCHAIN_VERSION}/crypto/block/block.tlb`,
+    );
+    if (!tlbResponse.ok) {
+        throw new Error(`Failed to fetch TL-B schema with status ${tlbResponse.status}`);
+    }
+
+    const tlb = await tlbResponse.text();
+    const generated = generateCode(tlb, 'typescript');
+
+    fs.writeFileSync('./src/config/config.tlb', tlb);
+    fs.writeFileSync('./src/config/config.tlb-gen.ts', generated);
+}
+
 async function getLatestConfig() {
     const masterchainResponse = await fetch('https://toncenter.com/api/v2/getMasterchainInfo');
     const masterchainInfo = (await masterchainResponse.json()) as {
@@ -56,6 +74,8 @@ async function getLatestConfig() {
 }
 
 const main = async () => {
+    await updateConfigSchema();
+
     const { config, seqno } = await getLatestConfig();
 
     writeConfig('default', config, seqno);
