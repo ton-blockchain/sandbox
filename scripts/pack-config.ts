@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { beginCell, Cell, Dictionary, DictionaryValue, TonClient4 } from '@ton/ton';
+import { beginCell, Cell, Dictionary, DictionaryValue } from '@ton/ton';
 
 const CellRef: DictionaryValue<Cell> = {
     serialize: (src, builder) => {
@@ -30,20 +30,37 @@ function writeConfig(name: string, config: Cell, seqno: number) {
     fs.writeFileSync(`./src/config/${name}Config.ts`, out);
 }
 
+async function getLatestConfig() {
+    const masterchainResponse = await fetch('https://toncenter.com/api/v2/getMasterchainInfo');
+    const masterchainInfo = (await masterchainResponse.json()) as {
+        ok: boolean;
+        result: { last: { seqno: number } };
+        error?: string;
+    };
+    if (!masterchainResponse.ok || !masterchainInfo.ok) {
+        throw new Error(masterchainInfo.error ?? `TON Center request failed with status ${masterchainResponse.status}`);
+    }
+
+    const seqno = masterchainInfo.result.last.seqno;
+    const configResponse = await fetch(`https://toncenter.com/api/v2/getConfigAll?seqno=${seqno}`);
+    const configInfo = (await configResponse.json()) as {
+        ok: boolean;
+        result: { config: { bytes: string } };
+        error?: string;
+    };
+    if (!configResponse.ok || !configInfo.ok) {
+        throw new Error(configInfo.error ?? `TON Center request failed with status ${configResponse.status}`);
+    }
+
+    return { config: Cell.fromBase64(configInfo.result.config.bytes), seqno };
+}
+
 const main = async () => {
-    const client = new TonClient4({
-        endpoint: 'https://mainnet-v4.tonhubapi.com',
-    });
+    const { config, seqno } = await getLatestConfig();
 
-    const lastBlock = await client.getLastBlock();
+    writeConfig('default', config, seqno);
 
-    const lastBlockConfig = await client.getConfig(lastBlock.last.seqno);
-
-    const configCell = Cell.fromBase64(lastBlockConfig.config.cell);
-
-    writeConfig('default', configCell, lastBlock.last.seqno);
-
-    writeConfig('slim', makeSlim(configCell), lastBlock.last.seqno);
+    writeConfig('slim', makeSlim(config), seqno);
 };
 
 main();
