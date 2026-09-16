@@ -1,10 +1,10 @@
 # Sandbox examples
 
-This directory contains a few examples that demonstrate how to use `@ton-community/sandbox`.
+This directory contains a few examples that demonstrate how to use `@ton/sandbox`.
 
 To run all the tests, use the following:
 ```
-git clone https://github.com/ton-community/sandbox
+git clone https://github.com/ton-blockchain/sandbox
 cd sandbox/examples
 yarn && yarn examples
 ```

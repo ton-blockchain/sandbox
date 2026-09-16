@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ton-org/sandbox.git"
+    "url": "git+https://github.com/ton-blockchain/sandbox.git"
   },
   "prettier": "@ton/toolchain/prettier",
   "devDependencies": {

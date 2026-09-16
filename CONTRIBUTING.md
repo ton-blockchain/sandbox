@@ -7,9 +7,9 @@ We highly appreciate your contributions to the project ❤️
 ### Step 1 — get code
 
 ```shell
-git clone git@github.com:ton-org/sandbox.git
+git clone https://github.com/ton-blockchain/sandbox
 cd sandbox
-git checkout -b name-of-your-feature origin/develop
+git checkout -b name-of-your-feature origin/master
 ```
 
 ### Step 2 — write code
@@ -31,7 +31,7 @@ git commit --message "fix: hide password display when searching for a user"
 
 ### Step 3 — make a fork
 
-Go [here](https://github.com/ton-org/sandbox/fork) to make a fork, then setup your remote:
+Go [here](https://github.com/ton-blockchain/sandbox/fork) to make a fork, then setup your remote:
 
 ```bash
 git remote add self url_of_your_fork
@@ -45,16 +45,16 @@ Push:
 git push --set-upstream self name-of-your-feature
 ```
 
-Then create a pull request from the [pull requests page](https://github.com/ton-org/sandbox/pulls) or directly:
+Then create a pull request from the [pull requests page](https://github.com/ton-blockchain/sandbox/pulls) or directly:
 
 ```shell
-https://github.com/ton-org/sandbox/pull/new/name-of-your-feature
+https://github.com/ton-blockchain/sandbox/pull/new/name-of-your-feature
 ```
 (note the name of your branch in the URL)
 
-### Step 5 — update your branch from main
+### Step 5 — update your branch from master
 
-This step may be necessary in case the `main`/`develop` branch has changed since you created your branch
+This step may be necessary in case the `master` branch has changed since you created your branch
 
 > [!NOTE]
 > A tidy, linear Git history  https://www.bitsnbites.eu/a-tidy-linear-git-history/
@@ -63,10 +63,10 @@ Get the latest upstream changes and update the working branch:
 
 ```shell
 git fetch --prune origin
-git rebase --autostash --ignore-date origin/main
+git rebase --autostash --ignore-date origin/master
 ```
 > [!WARNING]
-> Please note that you get the current state of the `main` branch from the **origin** remote for pushing to your own branch
+> Please note that you get the current state of the `master` branch from the **origin** remote for pushing to your own branch
 
 During the rebase, there may be conflicts, they need to be resolved; once the conflicts are resolved, you can continue the rebase:
 
