@@ -779,7 +779,3 @@ Special thanks to [@TrueCarry](https://github.com/truecarry) for their help with
 ## License
 
 This package is released under the [MIT License](LICENSE).
-
-## Donations
-
-TON - `EQAQR1d1Q4NaE5EefwUMdrr1QvXg-8mDB0XI2-fwDBD0nYxC`
