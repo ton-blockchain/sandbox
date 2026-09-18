@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.45.0] - 2026-09-18
+
+### Changed
+
+- Updated the default and slim blockchain configs to masterchain block 92871331.
+- Updated the config TL-B schema and generated serializers to TON v2026.08.
+- Updated repository links in package metadata and documentation to `ton-blockchain/sandbox`.
+
+### Fixed
+
+- Fixed release publishing after the repository transfer to `ton-blockchain/sandbox`.
+
+## [0.44.0] - 2026-06-28
+
+### Changed
+
+- Replaced the `ton-assembly` dependency with `@ton/tasm` 0.6.1 for code coverage.
+
 ## [0.43.0] - 2026-06-12
 
 ### Changed
