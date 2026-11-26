@@ -35,6 +35,8 @@ The key difference of this package from [ton-contract-executor](https://github.c
 
 Requires node 16 or higher.
 
+Sandbox supports `@ton/core` versions `>=0.61.0 <1.0.0`.
+
 ```
 yarn add @ton/sandbox @ton/ton @ton/core @ton/crypto
 ```

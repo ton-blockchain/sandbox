@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Set an upper bound on the `@ton/core` peer dependency so installs cannot select an unsupported major version.
+
 ## [0.45.0] - 2026-09-18
 
 ### Changed
